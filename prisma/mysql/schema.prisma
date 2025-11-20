@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../generated/mysql/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid()) @map("_id")
+  firstName     String    @db.VarChar(25) @map("first_name")
+  secondName    String?   @db.VarChar(25) @map("second_name")
+  firstSurname  String    @db.VarChar(25) @map("first_surname")
+  secondSurname String?   @db.VarChar(25) @map("second_surname")
+  birthday      DateTime  @db.DateTime
+  phone         String?   @db.VarChar(25)
+  email         String    @db.VarChar(100)
+  photo         String?   @db.VarChar(255)
+  password      String    @db.VarChar(255)
+  status        Status?   @default(ACTIVE)
+  role          Role?     @default(USER)
+  createdAt     DateTime  @db.Timestamp(3) @default(now()) @map("created_at")
+  updatedAt     DateTime  @db.Timestamp(3) @map("updated_at")
+  deletedAt     DateTime? @db.Timestamp(3) @map("deleted_at")
+
+  @@map("users")
+}
+
+enum Status {
+  INACTIVE @map("0")
+  ACTIVE   @map("1")
+}
+
+enum Role {
+  ADMIN @map("1")
+  USER @map("0")
+}

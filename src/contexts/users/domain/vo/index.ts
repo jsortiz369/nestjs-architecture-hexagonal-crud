@@ -1,0 +1,15 @@
+export { UserId } from './user-id.vo';
+export { UserFirstName } from './user-first-name.vo';
+export { UserSecondName } from './user-second-name.vo';
+export { UserFirstSurname } from './user-first-surname.vo';
+export { UserSecondSurname } from './user-second-surname.vo';
+export { UserBirthday } from './user-birthday.vo';
+export { UserPhone } from './user-phone.vo';
+export { UserEmail } from './user-email.vo';
+export { UserPhoto } from './user-photo.vo';
+export { UserPassword } from './user-password.vo';
+export { UserStatus } from './user-status.vo';
+export { UserRole } from './user-role.vo';
+export { UserCreatedAt } from './user-created-at.vo';
+export { UserUpdatedAt } from './user-updated-at.vo';
+export { UserDeletedAt } from './user-deleted-at.vo';

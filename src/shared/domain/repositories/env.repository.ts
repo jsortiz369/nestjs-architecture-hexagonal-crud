@@ -3,7 +3,7 @@ import { Env } from '../interfaces';
 export abstract class EnvRepository {
   /**
    * @description Get environment variable by key
-   * @date 2025-11-17 20:21:21
+   * @date 2025-11-19 06:10:33
    * @author Jogan Ortiz Muñoz
    *
    * @abstract
@@ -15,15 +15,14 @@ export abstract class EnvRepository {
 
   /**
    * @description Get system variable by key
-   * @date 2025-11-17 20:21:30
+   * @date 2025-11-19 06:20:57
    * @author Jogan Ortiz Muñoz
    *
    * @abstract
-   * @template {string} T
    * @param {string} key
-   * @returns {T}
+   * @returns {string}
    */
-  abstract getSystem<T extends string>(key: string): T;
+  abstract getSystem(key: string): string;
 
   /**
    * @description Get url data source

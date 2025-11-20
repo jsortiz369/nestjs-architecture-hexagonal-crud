@@ -1,0 +1,43 @@
+services:
+  crud_nestjs_multidb_hexagonal_db:
+    image: mysql:8.0.44-oracle
+    container_name: 'crud_nestjs_multidb_hexagonal_db'
+    volumes:
+      - ./data-docker/mysql/data:/var/lib/mysql
+    ports:
+      - '${DB_PORT}:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    # networks:
+    #   - crud_nestjs_multidb_hexagonal
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  crud_nestjs_multidb_hexagonal_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    container_name: 'crud_nestjs_multidb_hexagonal_app'
+    volumes:
+      - ./src:/app/src
+      - ./prisma:/app/prisma
+      - ./generated:/app/generated
+    ports:
+      - '${PORT}:${PORT}'
+    env_file:
+      - .env
+    depends_on:
+      crud_nestjs_multidb_hexagonal_db:
+        condition: service_healthy
+    # networks:
+    #   - crud_nestjs_multidb_hexagonal
+# networks:
+#   crud_nestjs_multidb_hexagonal:
+#     driver: bridge

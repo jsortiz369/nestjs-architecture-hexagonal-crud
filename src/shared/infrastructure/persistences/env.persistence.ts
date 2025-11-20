@@ -1,17 +1,17 @@
 import { config } from 'dotenv';
 import { ZodSafeParseResult } from 'zod';
 
-import { Env } from 'src/shared/domain/interfaces';
-import { EnvRepository } from 'src/shared/domain/repositories';
+import { EnvRepository } from '../../domain/repositories';
 import { schemaEnv } from '../schemas';
+import { Env } from '../../domain/interfaces';
 
 export class EnvPersistence implements EnvRepository {
   private readonly _env: Env;
-  readonly _urlDataSource: string;
+  private readonly _urlDataSource: string;
 
   /**
    * Creates an instance of EnvPersistence.
-   * @date 2025-11-17 21:13:55
+   * @date 2025-11-19 06:09:04
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
@@ -27,7 +27,7 @@ export class EnvPersistence implements EnvRepository {
 
   /**
    * @description Get environment variable by key
-   * @date 2025-11-17 21:14:00
+   * @date 2025-11-19 06:10:33
    * @author Jogan Ortiz Muñoz
    *
    * @template {keyof Env} T
@@ -42,16 +42,15 @@ export class EnvPersistence implements EnvRepository {
 
   /**
    * @description Get system variable by key
-   * @date 2025-11-17 21:14:08
+   * @date 2025-11-19 06:20:57
    * @author Jogan Ortiz Muñoz
    *
-   * @template {string} T
    * @param {string} key
-   * @returns {T}
+   * @returns {string}
    */
-  getSystem<T extends string>(key: string): T {
+  getSystem(key: string): string {
     this.validateKey(key);
-    return process.env[key] as T;
+    return process.env[key] as string;
   }
 
   /**
@@ -65,8 +64,18 @@ export class EnvPersistence implements EnvRepository {
     return this._urlDataSource;
   }
 
+  /**
+   * @description Validate key exist
+   * @date 2025-11-19 06:10:57
+   * @author Jogan Ortiz Muñoz
+   *
+   * @private
+   * @template {string} T
+   * @param {T} value
+   * @returns {boolean}
+   */
   private validateKey<T extends string>(value: T): boolean {
-    if (value === undefined || value === null) throw new Error(`Environment variable ${JSON.stringify(value)} is not defined`);
+    if (value === undefined || value === null) throw new Error(`Key variable is not defined`);
     return true;
   }
 
@@ -78,12 +87,15 @@ export class EnvPersistence implements EnvRepository {
     const username = this._env['DB_USERNAME'];
     const password = this._env['DB_PASSWORD'];
 
-    let typeConect: string = `${dbType}://${username}:${password}@${host}:${port}/${name}`;
+    let typeConect: string | undefined;
     if (dbType === 'sqlserver') {
       typeConect = `${dbType}://${host}:${port};database=${name};user=${username};password=${password};encrypt=true;trustServerCertificate=true`;
+    } else if (dbType === 'postgresql' || dbType === 'mysql') {
+      typeConect = `${dbType}://${username}:${password}@${host}:${port}/${name}`;
     }
 
-    process.env.DATABASE_URL = typeConect;
+    // validate has defined data source
+    if (typeConect === null || typeConect === undefined) throw new Error(`Data source is not defined`);
     return typeConect;
   }
 }

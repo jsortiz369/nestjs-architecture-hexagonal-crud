@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
+import { ContextsModule } from './contexts/contexts.module';
 
 @Module({
-  imports: [],
-  controllers: [],
-  providers: [],
+  imports: [ContextsModule],
 })
 export class AppModule {}
