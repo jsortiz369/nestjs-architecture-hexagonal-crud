@@ -1,16 +1,18 @@
 import { Logger, Module } from '@nestjs/common';
+import { DBModule } from 'src/shared/infrastructure/config/db/db.module';
 
-import { SharedModule } from 'src/shared/shared.module';
-import { PrismaMysqlPersistence } from 'src/shared/infrastructure/persistences';
-import { UuidRepository } from 'src/shared/domain/repositories';
 import { UserRepository } from './domain/user.repository';
 import { UserMysqlPersistence } from './infrastructure/persistences/user-mysql.persistence';
+import { MysqlConnect } from 'src/shared/infrastructure/config/db/prisma/persistences';
+import { UUIDModule } from 'src/shared/infrastructure/config/uuid/uuid.module';
+import { UuidRepository } from 'src/shared/infrastructure/config/uuid/v4/repository';
+
 import * as useCases from './application';
 import * as controllers from './infrastructure/http/controllers';
 import * as services from './domain/services';
 
 @Module({
-  imports: [SharedModule],
+  imports: [DBModule, UUIDModule],
   controllers: [
     controllers.UserCreateController,
     controllers.UserFindOneByIdController,
@@ -22,8 +24,8 @@ import * as services from './domain/services';
     Logger,
     {
       provide: UserRepository,
-      useFactory: (persistence: PrismaMysqlPersistence) => new UserMysqlPersistence(persistence),
-      inject: [PrismaMysqlPersistence],
+      useFactory: (persistence: MysqlConnect) => new UserMysqlPersistence(persistence),
+      inject: [MysqlConnect],
     },
     {
       provide: services.UserExistByEmailService,

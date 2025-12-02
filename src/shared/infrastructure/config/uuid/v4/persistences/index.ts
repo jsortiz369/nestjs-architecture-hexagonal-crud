@@ -1,5 +1,5 @@
-import { UuidRepository } from '../../domain/repositories';
-import { REGEX } from '../constants/regex.constant';
+import { UUID_V4 } from '../constants';
+import { UuidRepository } from '../repository';
 
 export class UuidPersistence implements UuidRepository {
   /**
@@ -22,7 +22,7 @@ export class UuidPersistence implements UuidRepository {
    * @returns {boolean}
    */
   validateUuid(uuid: string): boolean {
-    if (!REGEX.UUID_V4.test(uuid)) return false;
+    if (!UUID_V4.test(uuid)) return false;
     return true;
   }
 }

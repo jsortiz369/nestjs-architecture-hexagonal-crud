@@ -1,11 +1,10 @@
-import { PrismaMysqlPersistence } from 'src/shared/infrastructure/persistences';
 import { User } from '../../domain/user';
 import { UserRepository } from '../../domain/user.repository';
 import { DataFind, FiledSearchType, RoleType, StatusType } from 'src/shared/domain/interfaces';
 import { $Enums } from 'generated/mysql/prisma';
 import { UserEmail, UserId } from '../../domain/vo';
 import { UserFind, UserPrimitive } from '../../domain/user.interface';
-import { FiledType, FilterType } from 'src/shared/infrastructure/persistences/prisma-mysql.persistence';
+import { MysqlConnect } from 'src/shared/infrastructure/config/db/prisma/persistences';
 
 export class UserMysqlPersistence implements UserRepository {
   /**
@@ -14,9 +13,9 @@ export class UserMysqlPersistence implements UserRepository {
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {PrismaMysqlPersistence} _prisma
+   * @param {MysqlConnect} _prisma
    */
-  constructor(private readonly _prisma: PrismaMysqlPersistence) {}
+  constructor(private readonly _prisma: MysqlConnect) {}
 
   /**
    * @description Get all users

@@ -1,9 +1,9 @@
 import { config } from 'dotenv';
 import { ZodSafeParseResult } from 'zod';
 
-import { EnvRepository } from '../../domain/repositories';
-import { schemaEnv } from '../schemas';
-import { Env } from '../../domain/interfaces';
+import { EnvRepository } from '../repository';
+import { Env } from '../interfaces';
+import { schemaEnv } from '../schema';
 
 export class EnvPersistence implements EnvRepository {
   private readonly _env: Env;
