@@ -1,16 +1,18 @@
-import { StringValueObject } from 'src/shared/domain/vo';
-import { REGEX } from 'src/shared/infrastructure/constants/regex.constant';
+import { REGEX } from 'src/shared/system/domain/constants';
+import { StringValueObject } from 'src/shared/system/domain/vo';
+import { UserPrimitive } from '../user.interface';
 
-export class UserEmail extends StringValueObject<string> {
+type UserEmailProp = UserPrimitive['email'];
+export class UserEmail extends StringValueObject<UserEmailProp> {
   /**
    * Creates an instance of UserEmail.
    * @date 2025-11-19 11:09:53
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {string} value
+   * @param {UserEmailProp} value
    */
-  constructor(value: string) {
+  constructor(value: UserEmailProp) {
     super(value, 'The email is not valid must be a string');
 
     this.ensureIsDefined('The email is required'); // Not null or undefined

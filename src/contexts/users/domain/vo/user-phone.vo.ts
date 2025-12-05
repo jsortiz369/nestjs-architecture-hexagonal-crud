@@ -1,16 +1,18 @@
-import { StringValueObject } from 'src/shared/domain/vo';
-import { REGEX } from 'src/shared/infrastructure/constants/regex.constant';
+import { REGEX } from 'src/shared/system/domain/constants';
+import { StringValueObject } from 'src/shared/system/domain/vo';
+import { UserPrimitive } from '../user.interface';
 
-export class UserPhone extends StringValueObject<string | null | undefined> {
+type UserPhoneProp = UserPrimitive['phone'];
+export class UserPhone extends StringValueObject<UserPhoneProp> {
   /**
    * Creates an instance of UserPhone.
    * @date 2025-11-19 11:10:01
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {string} value
+   * @param {UserPhoneProp} value
    */
-  constructor(value: string) {
+  constructor(value: UserPhoneProp) {
     super(value, 'The phone is not valid must be a string');
 
     this.ensureNotEmpty('The phone is not empty'); // Not empty string

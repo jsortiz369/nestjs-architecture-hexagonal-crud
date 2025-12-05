@@ -16,7 +16,7 @@ export abstract class StringValueObject<T extends string | undefined | null> {
   }
 
   protected ensureIsFulfillRegExp(regex: RegExp, message: string): void {
-    if (!regex.test(this._value ?? '')) throw new InvalidValueException(message);
+    if (this._value !== null && this._value !== undefined && !regex.test(this._value)) throw new InvalidValueException(message);
   }
 
   protected length(min: number, max: number, message: string) {

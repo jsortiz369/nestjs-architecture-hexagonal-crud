@@ -1,16 +1,18 @@
-import { StringValueObject } from 'src/shared/domain/vo';
-import { REGEX } from 'src/shared/infrastructure/constants/regex.constant';
+import { StringValueObject } from 'src/shared/system/domain/vo';
+import { REGEX } from 'src/shared/system/domain/constants';
+import { UserPrimitive } from '../user.interface';
 
-export class UserSecondName extends StringValueObject<string | null | undefined> {
+type UserSecondNameProp = UserPrimitive['secondName'];
+export class UserSecondName extends StringValueObject<UserSecondNameProp> {
   /**
    * Creates an instance of UserSecondName.
    * @date 2025-11-19 10:53:13
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {string} value
+   * @param {UserSecondNameProp} value
    */
-  constructor(value: string) {
+  constructor(value: UserSecondNameProp) {
     super(value, 'The second name is not valid must be a string');
 
     this.ensureNotEmpty('The second name is not empty'); // Not empty string

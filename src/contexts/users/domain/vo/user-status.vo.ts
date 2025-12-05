@@ -1,6 +1,8 @@
-import { StatusType } from 'src/shared/domain/interfaces';
-import { EnumValueObject } from 'src/shared/domain/vo';
+import { StatusType } from 'src/shared/system/domain/system.interface';
+import { EnumValueObject } from 'src/shared/system/domain/vo';
+import { UserPrimitive } from '../user.interface';
 
+type UserStatusProp = UserPrimitive['status'];
 export class UserStatus extends EnumValueObject<typeof StatusType> {
   /**
    * Creates an instance of UserStatus.
@@ -8,9 +10,9 @@ export class UserStatus extends EnumValueObject<typeof StatusType> {
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {StatusType} value
+   * @param {UserStatusProp} value
    */
-  constructor(value: StatusType) {
+  constructor(value: UserStatusProp) {
     super(value, StatusType, 'The status is not valid');
   }
 }

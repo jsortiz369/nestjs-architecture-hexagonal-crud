@@ -1,15 +1,17 @@
-import { StringValueObject } from 'src/shared/domain/vo';
+import { StringValueObject } from 'src/shared/system/domain/vo';
+import { UserPrimitive } from '../user.interface';
 
-export class UserPhoto extends StringValueObject<string | null | undefined> {
+type UserPhotoProp = UserPrimitive['photo'];
+export class UserPhoto extends StringValueObject<UserPhotoProp> {
   /**
    * Creates an instance of UserPhoto.
    * @date 2025-11-19 11:15:54
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {string} value
+   * @param {UserPhotoProp} value
    */
-  constructor(value: string) {
+  constructor(value: UserPhotoProp) {
     super(value, 'The photo is not valid must be a string');
 
     this.ensureNotEmpty('The photo is not empty'); // Not empty string

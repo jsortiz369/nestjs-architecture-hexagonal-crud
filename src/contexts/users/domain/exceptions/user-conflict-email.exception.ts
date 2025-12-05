@@ -1,8 +1,8 @@
 import { BadRequestException } from '@nestjs/common';
 
-export class UserExistByEmailException extends BadRequestException {
+export class UserConflictEmailException extends BadRequestException {
   /**
-   * Creates an instance of UserExistByEmailException.
+   * Creates an instance of UserConflictEmailException.
    * @date 2025-11-19 17:13:16
    * @author Jogan Ortiz Muñoz
    *

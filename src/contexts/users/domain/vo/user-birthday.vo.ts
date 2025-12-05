@@ -1,15 +1,17 @@
-import { DateValueObject } from 'src/shared/domain/vo/date.vo';
+import { DateValueObject } from 'src/shared/system/domain/vo';
+import { UserPrimitive } from '../user.interface';
 
-export class UserBirthday extends DateValueObject<Date> {
+type UserBirthdayProp = UserPrimitive['birthday'];
+export class UserBirthday extends DateValueObject<UserBirthdayProp> {
   /**
    * Creates an instance of UserBirthday.
    * @date 2025-11-19 10:58:39
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {Date} _value
+   * @param {UserBirthdayProp} _value
    */
-  constructor(readonly _value: Date) {
+  constructor(readonly _value: UserBirthdayProp) {
     super(_value, 'The birthday is not valid must be a date');
 
     this.ensureIsDefined('The birthday is required');

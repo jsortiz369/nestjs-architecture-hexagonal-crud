@@ -1,30 +1,28 @@
-import { Logger, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 
-import { UserRepository } from './domain/user.repository';
-import { UserMysqlPersistence } from './infrastructure/persistences/user-mysql.persistence';
-import { DatabaseModule } from 'src/shared/database/database.module';
 import { UuidModule } from 'src/shared/uuid/uuid.module';
+import { DatabaseModule } from 'src/shared/database/database.module';
 import { EnvModule } from 'src/shared/env/env.module';
-import { EnvRepository } from 'src/shared/env/domain/env.repository';
-import { PrismaMysqlPersistence } from 'src/shared/database/infrastructure/persistences';
 import { UuidRepository } from 'src/shared/uuid/domain/uuid.repository';
+import { UserRepository } from './domain/repository';
+import { UserPersistenceProvider } from './infrastructure/persistences';
 
-import * as useCases from './application';
-import * as services from './domain/services';
-import * as controllers from './infrastructure/http/controllers';
+import * as controllers from './infrastructure/controllers';
+import * as handlers from './application';
 
 @Module({
   imports: [EnvModule, DatabaseModule, UuidModule],
-  controllers: [
-    controllers.UserCreateController,
-    controllers.UserFindOneByIdController,
-    controllers.UserDeleteController,
-    controllers.UserUpdateController,
-    controllers.UserFindController,
-  ],
+  controllers: [controllers.UserCreateController],
   providers: [
-    Logger,
+    UserPersistenceProvider,
     {
+      provide: handlers.UserCreateHandler,
+      useFactory: (_uuidRepository: UuidRepository, _userRepository: UserRepository) => {
+        return new handlers.UserCreateHandler(_uuidRepository, _userRepository);
+      },
+      inject: [UuidRepository, UserRepository],
+    },
+    /* {
       provide: UserRepository,
       useFactory: (_env: EnvRepository, persistence: PrismaMysqlPersistence) => {
         if (_env.get('NODE_ENV') == 'test') return null;
@@ -76,7 +74,7 @@ import * as controllers from './infrastructure/http/controllers';
       provide: useCases.UserFindUseCase,
       useFactory: (userRepository: UserRepository) => new useCases.UserFindUseCase(userRepository),
       inject: [UserRepository],
-    },
+    }, */
   ],
 })
 export class UsersModule {}

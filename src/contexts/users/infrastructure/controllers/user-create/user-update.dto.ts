@@ -1,7 +1,8 @@
 import { Type } from 'class-transformer';
 import { IsDate, IsEnum, IsNotEmpty, IsOptional, IsString, Length, Matches, MaxDate, MinDate } from 'class-validator';
-import { RoleType, StatusType } from 'src/shared/domain/interfaces';
-import { REGEX } from 'src/shared/infrastructure/constants/regex.constant';
+
+import { REGEX } from 'src/shared/system/domain/constants';
+import { RoleType, StatusType } from 'src/shared/system/domain/system.interface';
 
 export class UserCreateDto {
   @IsString({ message: 'The first name is not valid must be a string' })

@@ -1,8 +1,7 @@
-import { MatchModeStringType, RoleType, SortOrderType, StatusType } from 'src/shared/domain/interfaces';
-import * as vo from './vo';
+import { RoleType, StatusType } from 'src/shared/system/domain/system.interface';
 
 export interface UserPrimitive {
-  id: string;
+  _id: string;
   firstName: string;
   secondName?: string | null;
   firstSurname: string;
@@ -11,7 +10,7 @@ export interface UserPrimitive {
   phone?: string | null;
   email: string;
   photo?: string | null;
-  password?: string;
+  password: string;
   status: StatusType;
   role: RoleType;
   createdAt: Date;
@@ -19,52 +18,9 @@ export interface UserPrimitive {
   deletedAt?: Date;
 }
 
-export interface UserCreate {
-  firstName: string;
-  secondName?: string;
-  firstSurname: string;
-  secondSurname?: string;
-  birthday: Date;
-  phone?: string;
-  email: string;
-  password: string;
-  role: RoleType;
-  status: StatusType;
-}
+export type UserCreatePrimitive = Omit<UserPrimitive, 'createdAt' | 'updatedAt' | 'deletedAt'>;
 
-export interface UserVO {
-  id: vo.UserId;
-  firstName: vo.UserFirstName;
-  secondName: vo.UserSecondName;
-  firstSurname: vo.UserFirstSurname;
-  secondSurname: vo.UserSecondSurname;
-  birthday: vo.UserBirthday;
-  phone: vo.UserPhone;
-  email: vo.UserEmail;
-  photo: vo.UserPhoto;
-  password: vo.UserPassword;
-  status: vo.UserStatus;
-  role: vo.UserRole;
-  createdAt: vo.UserCreatedAt;
-  updatedAt: vo.UserUpdatedAt;
-  deletedAt: vo.UserDeletedAt;
-}
-
-export interface UserCreateVo {
-  id: vo.UserId;
-  firstName: vo.UserFirstName;
-  secondName?: vo.UserSecondName;
-  firstSurname: vo.UserFirstSurname;
-  secondSurname?: vo.UserSecondSurname;
-  birthday: vo.UserBirthday;
-  phone?: vo.UserPhone;
-  email: vo.UserEmail;
-  password: vo.UserPassword;
-  role: vo.UserRole;
-  status: vo.UserStatus;
-}
-
-export enum UserSort {
+/*export enum UserSort {
   FIRST_NAME = 'firstName',
   SECON_DNAME = 'secondName',
   FIRST_SURNAME = 'firstSurname',
@@ -78,7 +34,7 @@ export enum UserSort {
   UPDATED_AT = 'updatedAt',
 }
 
-export interface UserFilterFind {
+ export interface UserFilterFind {
   global?: { value: string; matchMode: MatchModeStringType };
 }
 
@@ -90,3 +46,4 @@ export interface UserFind {
   filters?: UserFilterFind;
   search?: string;
 }
+ */

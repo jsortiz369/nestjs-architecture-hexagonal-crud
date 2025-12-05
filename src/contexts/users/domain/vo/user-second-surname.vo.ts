@@ -1,16 +1,17 @@
-import { StringValueObject } from 'src/shared/domain/vo';
-import { REGEX } from 'src/shared/infrastructure/constants/regex.constant';
+import { REGEX } from 'src/shared/system/domain/constants';
+import { StringValueObject } from 'src/shared/system/domain/vo';
 
-export class UserSecondSurname extends StringValueObject<string | null | undefined> {
+type UserSecondSurnameProp = string | null | undefined;
+export class UserSecondSurname extends StringValueObject<UserSecondSurnameProp> {
   /**
    * Creates an instance of UserSecondSurname.
    * @date 2025-11-19 10:55:45
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {string} value
+   * @param {UserSecondSurnameProp} value
    */
-  constructor(value: string) {
+  constructor(value: UserSecondSurnameProp) {
     super(value, 'The second surname is not valid must be a string');
 
     this.ensureNotEmpty('The second surname is not empty'); // Not empty string

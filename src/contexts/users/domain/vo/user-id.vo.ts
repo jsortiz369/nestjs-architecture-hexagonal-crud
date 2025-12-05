@@ -1,5 +1,7 @@
-import { UuidValueObject } from 'src/shared/domain/vo';
+import { UuidValueObject } from 'src/shared/system/domain/vo';
+import { UserPrimitive } from '../user.interface';
 
+type UserIdProp = UserPrimitive['_id'];
 export class UserId extends UuidValueObject {
   /**
    * Creates an instance of LanguageId.
@@ -7,9 +9,9 @@ export class UserId extends UuidValueObject {
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {string} value
+   * @param {UserIdProp} value
    */
-  constructor(value: string) {
+  constructor(value: UserIdProp) {
     super(value, 'The id is not valid must be a uuid');
   }
 }

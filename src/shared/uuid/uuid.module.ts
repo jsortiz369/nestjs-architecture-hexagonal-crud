@@ -9,5 +9,6 @@ import { UuidV4Persistence } from './infrastructure/persistences';
       useClass: UuidV4Persistence,
     },
   ],
+  exports: [UuidRepository],
 })
 export class UuidModule {}

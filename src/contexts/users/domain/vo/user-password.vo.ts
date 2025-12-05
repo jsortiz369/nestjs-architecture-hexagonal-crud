@@ -1,15 +1,17 @@
-import { StringValueObject } from 'src/shared/domain/vo';
+import { StringValueObject } from 'src/shared/system/domain/vo';
+import { UserPrimitive } from '../user.interface';
 
-export class UserPassword extends StringValueObject<string> {
+type UserPasswordProp = UserPrimitive['password'];
+export class UserPassword extends StringValueObject<UserPasswordProp> {
   /**
    * Creates an instance of UserPassword.
    * @date 2025-11-19 11:18:37
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {string} value
+   * @param {UserPasswordProp} value
    */
-  constructor(value: string) {
+  constructor(value: UserPasswordProp) {
     super(value, 'The password is not valid must be a string');
 
     this.ensureIsDefined('The password is required'); // Not null or undefined
