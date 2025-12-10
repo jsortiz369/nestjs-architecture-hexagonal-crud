@@ -6,6 +6,14 @@ import { UserFindOneByIdHandler, UserFindOneByIdQuery } from 'src/contexts/users
 
 @Controller(ROUTES.USERS)
 export class UserFindOneByIdController {
+  /**
+   * Creates an instance of UserFindOneByIdController.
+   * @date 2025-12-10 07:48:57
+   * @author Jogan Ortiz Muñoz
+   *
+   * @constructor
+   * @param {UserFindOneByIdHandler} _handler
+   */
   constructor(private readonly _handler: UserFindOneByIdHandler) {}
 
   @Get(':id')

@@ -1,4 +1,4 @@
-# crud-nestjs-multidb-hexagonal
+# nestjs-hexagonal-architecture-crud
 
 ## Description
 

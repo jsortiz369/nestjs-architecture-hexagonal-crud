@@ -7,6 +7,15 @@ import { User } from 'src/contexts/users/domain/user';
 import { UserUpdateIdCommand } from './user-update-id.command';
 
 export class UserUpdateHandler {
+  /**
+   * Creates an instance of UserUpdateHandler.
+   * @date 2025-12-10 07:35:26
+   * @author Jogan Ortiz Muñoz
+   *
+   * @constructor
+   * @param {UserRepository} _userRepository
+   * @param {UserFindOneByIdService} _userFindOneByIdService
+   */
   constructor(
     private readonly _userRepository: UserRepository,
     private readonly _userFindOneByIdService: UserFindOneByIdService,
@@ -37,7 +46,6 @@ export class UserUpdateHandler {
     if (exists) throw new UserConflictEmailException();
 
     // TODO: update user
-    user.updatedAt = new Date();
     const updatedUser = await this._userRepository.update(user._id, user);
 
     // TODO: return user values primitives

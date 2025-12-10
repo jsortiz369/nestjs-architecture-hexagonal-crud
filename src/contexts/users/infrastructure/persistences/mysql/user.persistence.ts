@@ -1,17 +1,34 @@
 import { $Enums } from 'generated/mysql/prisma';
 import { UserRepository } from 'src/contexts/users/domain/repositories';
 import { User } from 'src/contexts/users/domain/user';
-import { UserPrimitive } from 'src/contexts/users/domain/user.interface';
 import { UserEmail, UserId } from 'src/contexts/users/domain/vo';
 import { PrismaMysqlPersistence } from 'src/shared/database/infrastructure/persistences';
 import { RoleType, StatusType } from 'src/shared/system/domain/system.interface';
 
 export class UserPersistence implements UserRepository {
+  /**
+   * Creates an instance of UserPersistence.
+   * @date 2025-12-10 06:43:24
+   * @author Jogan Ortiz Muñoz
+   *
+   * @constructor
+   * @param {PrismaMysqlPersistence} _prisma
+   */
   constructor(private readonly _prisma: PrismaMysqlPersistence) {}
 
+  /**
+   * @description Get One User By Id
+   * @date 2025-12-10 06:43:03
+   * @author Jogan Ortiz Muñoz
+   *
+   * @async
+   * @param {UserId} id
+   * @returns {Promise<User | null>}
+   */
   async findOneById(id: UserId): Promise<User | null> {
     const result = await this._prisma.user.findFirst({
       where: { id: id._value, deletedAt: null },
+      omit: { deletedAt: true },
     });
     if (!result) return null;
 
@@ -31,8 +48,7 @@ export class UserPersistence implements UserRepository {
       status,
       createdAt: result.createdAt,
       updatedAt: result.updatedAt,
-      deletedAt: result.deletedAt,
-    } as UserPrimitive);
+    });
   }
 
   /**
@@ -85,6 +101,16 @@ export class UserPersistence implements UserRepository {
     return data;
   }
 
+  /**
+   * @description Update user by Id
+   * @date 2025-12-10 06:43:33
+   * @author Jogan Ortiz Muñoz
+   *
+   * @async
+   * @param {UserId} id
+   * @param {User} data
+   * @returns {Promise<User>}
+   */
   async update(id: UserId, data: User): Promise<User> {
     const roleUser = data.role?._value == RoleType.ADMIN ? $Enums.Role.ADMIN : $Enums.Role.USER;
     const statusUser = data.status?._value == StatusType.ACTIVE ? $Enums.Status.ACTIVE : $Enums.Status.INACTIVE;
@@ -111,8 +137,44 @@ export class UserPersistence implements UserRepository {
     return data;
   }
 
+  /**
+   * @description Delete User By Id
+   * @date 2025-12-10 06:43:50
+   * @author Jogan Ortiz Muñoz
+   *
+   * @async
+   * @param {UserId} id
+   * @returns {Promise<User>}
+   */
   async delete(id: UserId): Promise<User> {
-    await Promise.resolve(id);
-    throw new Error('Method not implemented.');
+    const deleted = new Date();
+
+    const result = await this._prisma.user.update({
+      data: {
+        status: $Enums.Status.INACTIVE,
+        updatedAt: deleted,
+        deletedAt: deleted,
+      },
+      where: { id: id._value },
+      omit: { deletedAt: true },
+    });
+
+    const role = result.role == $Enums.Role.ADMIN ? RoleType.ADMIN : RoleType.USER;
+    const status = result.status == $Enums.Status.ACTIVE ? StatusType.ACTIVE : StatusType.INACTIVE;
+    return User.fromPrimitives({
+      _id: result.id,
+      firstName: result.firstName,
+      secondName: result.secondName,
+      firstSurname: result.firstSurname,
+      secondSurname: result.secondSurname,
+      birthday: result.birthday,
+      email: result.email,
+      password: result.password,
+      phone: result.phone,
+      role,
+      status,
+      createdAt: result.createdAt,
+      updatedAt: result.updatedAt,
+    });
   }
 }

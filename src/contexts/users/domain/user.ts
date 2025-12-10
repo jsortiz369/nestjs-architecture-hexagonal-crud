@@ -62,56 +62,63 @@ export class User {
     this.deletedAtVO = vo.deletedAt;
   }
 
+  private deleteAt() {
+    this.deletedAtVO = new vo.UserDeletedAt(new Date());
+  }
+
   set firstName(firstName: InstanceType<typeof vo.UserFirstName>['_value']) {
     this.firstNameVO = new vo.UserFirstName(firstName);
+    this.deleteAt();
   }
 
   set secondName(secondName: InstanceType<typeof vo.UserSecondName>['_value']) {
     this.secondNameVO = new vo.UserSecondName(secondName);
+    this.deleteAt();
   }
 
   set firstSurname(firstSurname: InstanceType<typeof vo.UserFirstSurname>['_value']) {
     this.firstSurnameVO = new vo.UserFirstSurname(firstSurname);
+    this.deleteAt();
   }
 
   set secondSurname(secondSurname: InstanceType<typeof vo.UserSecondSurname>['_value']) {
     this.secondSurnameVO = new vo.UserSecondSurname(secondSurname);
+    this.deleteAt();
   }
 
   set birthday(birthday: InstanceType<typeof vo.UserBirthday>['_value']) {
     this.birthdayVO = new vo.UserBirthday(birthday);
+    this.deleteAt();
   }
 
   set email(email: InstanceType<typeof vo.UserEmail>['_value']) {
     this.emailVO = new vo.UserEmail(email);
+    this.deleteAt();
   }
 
   set phone(phone: InstanceType<typeof vo.UserPhone>['_value']) {
     this.phoneVO = new vo.UserPhone(phone);
+    this.deleteAt();
   }
 
   set photo(photo: InstanceType<typeof vo.UserPhoto>['_value']) {
     this.photoVO = new vo.UserPhoto(photo);
+    this.deleteAt();
   }
 
   set password(password: InstanceType<typeof vo.UserPassword>['_value']) {
     this.passwordVO = new vo.UserPassword(password);
+    this.deleteAt();
   }
 
   set status(status: InstanceType<typeof vo.UserStatus>['_value']) {
     this.statusVO = new vo.UserStatus(status);
+    this.deleteAt();
   }
 
   set role(role: InstanceType<typeof vo.UserRole>['_value']) {
     this.roleVO = new vo.UserRole(role);
-  }
-
-  set updatedAt(updatedAt: InstanceType<typeof vo.UserUpdatedAt>['_value']) {
-    this.updatedAtVO = new vo.UserUpdatedAt(updatedAt);
-  }
-
-  set deletedAt(deletedAt: InstanceType<typeof vo.UserDeletedAt>['_value']) {
-    this.deletedAtVO = new vo.UserDeletedAt(deletedAt);
+    this.deleteAt();
   }
 
   get firstName(): vo.UserFirstName {

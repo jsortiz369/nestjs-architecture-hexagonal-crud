@@ -1,9 +1,9 @@
 import { UserPrimitive } from 'src/contexts/users/domain/user.interface';
 
-export class UserUpdateIdCommand {
+export class UserDeleteIdCommand {
   /**
-   * Creates an instance of UserUpdateIdCommand.
-   * @date 2025-12-10 07:23:26
+   * Creates an instance of UserDeleteIdCommand.
+   * @date 2025-12-10 07:23:08
    * @author Jogan Ortiz Muñoz
    *
    * @constructor

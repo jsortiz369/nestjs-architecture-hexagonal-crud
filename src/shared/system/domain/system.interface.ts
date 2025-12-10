@@ -21,7 +21,7 @@ type MetaQuery = Page & {
   lastPage: number;
 };
 
-export type DataFind<T> = {
+export type DataFindAll<T> = {
   data: T[];
   meta: MetaQuery;
 };
