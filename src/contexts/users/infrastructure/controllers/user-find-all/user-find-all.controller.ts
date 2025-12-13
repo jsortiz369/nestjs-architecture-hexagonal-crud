@@ -3,6 +3,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { UserFindAllHandler, UserFindAllQuery } from 'src/contexts/users/application/queries/find-all';
 import { UserFindAllDto } from './user-find-all.dto';
 import { ROUTES } from 'src/app/http/routes';
+import { UserFindAllFilters } from 'src/contexts/users/application/queries/find-all/user-find-all.query';
 
 @Controller(ROUTES.USERS)
 export class UserFindAllController {
@@ -19,7 +20,14 @@ export class UserFindAllController {
   @Get()
   async execute(@Query() query: UserFindAllDto) {
     const result = await this._handler.execute(
-      new UserFindAllQuery(query.page, query.limit, query.sortOrder, query.sort, query.search, query.filters),
+      new UserFindAllQuery(
+        query.page,
+        query.limit,
+        query.sortOrder,
+        query.sort,
+        query.search,
+        new UserFindAllFilters(query.filters?.email, query.filters?.status, query.filters?.role),
+      ),
     );
 
     return result;

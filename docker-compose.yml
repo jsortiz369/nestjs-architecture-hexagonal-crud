@@ -1,23 +1,55 @@
 services:
+  # nestjs-hexagonal-architecture-crud_db:
+  #   image: mysql:8.0.44-oracle
+  #   container_name: 'nestjs-hexagonal-architecture-crud_db'
+  #   volumes:
+  #     - ./data-docker/mysql/data:/var/lib/mysql
+  #   ports:
+  #     - '${DB_PORT}:3306'
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+  #     - MYSQL_USER=${DB_USERNAME}
+  #     - MYSQL_DATABASE=${DB_NAME}
+  #     - MYSQL_PASSWORD=${DB_PASSWORD}
+
+  #   healthcheck:
+  #     test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+  # nestjs-hexagonal-architecture-crud_db:
+  #   image: postgres:13.22-alpine3.22
+  #   container_name: 'nestjs-hexagonal-architecture-crud_db'
+  #   volumes:
+  #     - ./data-docker/postgresql/data:/var/lib/postgresql/data
+  #   ports:
+  #     - '${DB_PORT}:5432'
+  #   environment:
+  #     - POSTGRES_PASSWORD=${DB_PASSWORD}
+  #     - POSTGRES_USER=${DB_USERNAME}
+  #     - POSTGRES_DB=${DB_NAME}
+  #   healthcheck:
+  #     test: ['CMD', 'pg_isready', '-U', '${DB_USERNAME}', '-d', '${DB_NAME}']
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
   nestjs-hexagonal-architecture-crud_db:
-    image: mysql:8.0.44-oracle
+    image: mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04
     container_name: 'nestjs-hexagonal-architecture-crud_db'
     volumes:
-      - ./data-docker/mysql/data:/var/lib/mysql
+      - ./data-docker/sqlserver:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04
     ports:
-      - '${DB_PORT}:3306'
+      - '${DB_PORT}:1433'
     environment:
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-      - MYSQL_USER=${DB_USERNAME}
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-    # networks:
-    #   - nestjs-hexagonal-architecture-crud
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
+      - ACCEPT_EULA=Y
     healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      test: ['CMD', '/opt/mssql-tools18/bin/sqlcmd', '-S', 'localhost', '-U', 'sa', '-P', '$DB_PASSWORD', '-C', '-Q', 'SELECT 1']
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   nestjs-hexagonal-architecture-crud_app:
     build:
@@ -36,8 +68,3 @@ services:
     depends_on:
       nestjs-hexagonal-architecture-crud_db:
         condition: service_healthy
-    # networks:
-    #   - nestjs-hexagonal-architecture-crud
-# networks:
-#   nestjs-hexagonal-architecture-crud:
-#     driver: bridge

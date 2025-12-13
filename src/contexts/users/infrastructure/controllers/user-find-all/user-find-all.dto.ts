@@ -1,6 +1,6 @@
 import { plainToInstance, Transform, Type } from 'class-transformer';
 import { IsEnum, IsObject, IsOptional, IsString, MaxLength, ValidateNested } from 'class-validator';
-import { FilterStringItemDto, FindFilterDto } from 'src/app/http/dto';
+import { FilterEnumItemDto, FilterStringItemDto, FindFilterDto } from 'src/app/http/dto';
 import { UserSort } from 'src/contexts/users/application/queries/find-all/user-find-all.query';
 
 class UserFiltersDto {
@@ -9,6 +9,18 @@ class UserFiltersDto {
   @IsObject({ message: 'The email filter must be a valid object' })
   @ValidateNested({ message: 'The email filter must be a valid object' })
   readonly email?: FilterStringItemDto;
+
+  @IsOptional()
+  @Transform(({ value }) => plainToInstance(FilterEnumItemDto, value))
+  @IsObject({ message: 'The status filter must be a valid object' })
+  @ValidateNested({ message: 'The status filter must be a valid object' })
+  readonly status?: FilterEnumItemDto;
+
+  @IsOptional()
+  @Transform(({ value }) => plainToInstance(FilterEnumItemDto, value))
+  @IsObject({ message: 'The role filter must be a valid object' })
+  @ValidateNested({ message: 'The role filter must be a valid object' })
+  readonly role?: FilterEnumItemDto;
 }
 
 export class UserFindAllDto extends FindFilterDto {

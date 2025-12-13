@@ -8,7 +8,6 @@ CREATE TABLE `users` (
     `birthday` DATETIME NOT NULL,
     `phone` VARCHAR(25) NULL,
     `email` VARCHAR(100) NOT NULL,
-    `photo` VARCHAR(255) NULL,
     `password` VARCHAR(255) NOT NULL,
     `status` ENUM('0', '1') NULL DEFAULT '1',
     `role` ENUM('1', '0') NULL DEFAULT '0',

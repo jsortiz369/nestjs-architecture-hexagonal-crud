@@ -44,10 +44,10 @@ export enum MatchModeEnumType {
 export type FiledSearchType = {
   field: string;
   type: 'string' | 'number' | 'boolean' | 'Date' | 'enum';
-  callback?: (value: string) => string | undefined;
+  callback?: (value: string) => string | undefined | null;
 };
 
-export type FilterEnum = { [x: string]: string } | { [x: string]: { not: string } } | { [x: string]: { in: string[] } };
+export type FilterEnum = { [x: string]: string | null } | { [x: string]: { not: string | null } } | { [x: string]: { in: string[] | null } };
 
 export type FilterString =
   | { [x: string]: string }

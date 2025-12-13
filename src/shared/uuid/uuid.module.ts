@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+
 import { UuidRepository } from './domain/uuid.repository';
 import { UuidV4Persistence } from './infrastructure/persistences';
 

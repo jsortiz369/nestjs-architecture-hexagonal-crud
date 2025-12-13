@@ -1,4 +1,4 @@
-import { MatchModeStringType } from 'src/shared/database/domain/database.interface';
+import { MatchModeEnumType, MatchModeStringType } from 'src/shared/database/domain/database.interface';
 import { SortOrderType } from 'src/shared/system/domain/system.interface';
 
 export enum UserSort {
@@ -37,8 +37,14 @@ export class UserFindAllQuery {
     readonly sortOrder: SortOrderType,
     readonly sort: UserSort,
     readonly search?: string,
-    readonly filters?: {
-      email?: { value: string; matchMode: MatchModeStringType };
-    },
+    readonly filters?: UserFindAllFilters,
+  ) {}
+}
+
+export class UserFindAllFilters {
+  constructor(
+    readonly email?: { value: string; matchMode: MatchModeStringType },
+    readonly status?: { value: string; matchMode: MatchModeEnumType },
+    readonly role?: { value: string; matchMode: MatchModeEnumType },
   ) {}
 }

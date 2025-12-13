@@ -1,25 +1,24 @@
-import { $Enums } from 'generated/mysql/prisma';
 import { UserFindAllQuery } from 'src/contexts/users/application';
 import { UserExistProjection, UserFindAllProjection, UserFindOneByIdProjection } from 'src/contexts/users/domain/projections';
 import { UserQueryRepository } from 'src/contexts/users/domain/repositories';
 import { FiledSearchType } from 'src/shared/database/domain/database.interface';
-import { PrismaMysqlPersistence } from 'src/shared/database/infrastructure/persistences';
+import { PrismaSqlServerPersistence } from 'src/shared/database/infrastructure/persistences';
 import { DataFindAll, RoleType, StatusType } from 'src/shared/system/domain/system.interface';
 
 export class UserQueryPersistence implements UserQueryRepository {
   /**
    * Creates an instance of UserQueryPersistence.
-   * @date 2025-12-10 06:44:54
+   * @date 2025-12-13 15:49:17
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {PrismaMysqlPersistence} _prisma
+   * @param {PrismaSqlServerPersistence} _prisma
    */
-  constructor(private readonly _prisma: PrismaMysqlPersistence) {}
+  constructor(private readonly _prisma: PrismaSqlServerPersistence) {}
 
   /**
    * @description Get all user by filters
-   * @date 2025-12-10 07:57:39
+   * @date 2025-12-13 15:49:27
    * @author Jogan Ortiz Muñoz
    *
    * @async
@@ -43,8 +42,8 @@ export class UserQueryPersistence implements UserQueryRepository {
       { field: 'birthday', type: 'Date' },
       { field: 'phone', type: 'string' },
       { field: 'email', type: 'string' },
-      { field: 'status', type: 'enum', callback: (value: string) => this.validateStatus(value) },
-      { field: 'role', type: 'enum', callback: (value: string) => this.validateRole(value) },
+      { field: 'status', type: 'number', callback: (value: string) => this.validateStatus(value) },
+      { field: 'role', type: 'number', callback: (value: string) => this.validateRole(value) },
       { field: 'createdAt', type: 'Date' },
       { field: 'updatedAt', type: 'Date' },
     ];
@@ -79,9 +78,6 @@ export class UserQueryPersistence implements UserQueryRepository {
 
     return {
       data: result.map((_) => {
-        const role = _.role == $Enums.Role.ADMIN ? RoleType.ADMIN : RoleType.USER;
-        const status = _.status == $Enums.Status.ACTIVE ? StatusType.ACTIVE : StatusType.INACTIVE;
-
         return new UserFindAllProjection(
           _.id,
           _.firstName,
@@ -91,8 +87,8 @@ export class UserQueryPersistence implements UserQueryRepository {
           _.birthday,
           _.phone ?? undefined,
           _.email,
-          status,
-          role,
+          _.status == 1 ? StatusType.ACTIVE : StatusType.INACTIVE,
+          _.role == 1 ? RoleType.ADMIN : RoleType.USER,
           _.createdAt,
           _.updatedAt,
         );
@@ -108,7 +104,7 @@ export class UserQueryPersistence implements UserQueryRepository {
 
   /**
    * @description Get User By Id
-   * @date 2025-12-10 06:44:34
+   * @date 2025-12-13 15:57:08
    * @author Jogan Ortiz Muñoz
    *
    * @async
@@ -123,9 +119,6 @@ export class UserQueryPersistence implements UserQueryRepository {
 
     if (!result) return null;
 
-    const role = result.role == $Enums.Role.ADMIN ? RoleType.ADMIN : RoleType.USER;
-    const status = result.status == $Enums.Status.ACTIVE ? StatusType.ACTIVE : StatusType.INACTIVE;
-
     return new UserFindOneByIdProjection(
       result.id,
       result.firstName,
@@ -135,8 +128,8 @@ export class UserQueryPersistence implements UserQueryRepository {
       result.birthday,
       result.phone,
       result.email,
-      status,
-      role,
+      result.status == 1 ? StatusType.ACTIVE : StatusType.INACTIVE,
+      result.role == 1 ? RoleType.ADMIN : RoleType.USER,
       result.createdAt,
       result.updatedAt,
     );
@@ -144,13 +137,13 @@ export class UserQueryPersistence implements UserQueryRepository {
 
   /**
    * @description Validate exist email
-   * @date 2025-12-10 07:12:09
+   * @date 2025-12-13 15:57:59
    * @author Jogan Ortiz Muñoz
    *
    * @async
    * @param {string} email
    * @param {?string} [id]
-   * @returns {Promise<boolean>}
+   * @returns {Promise<UserExistProjection>}
    */
   async existByEmail(email: string, id?: string): Promise<UserExistProjection> {
     const result = await this._prisma.user.findFirst({
@@ -161,13 +154,13 @@ export class UserQueryPersistence implements UserQueryRepository {
     return new UserExistProjection(result !== null);
   }
 
-  private validateStatus(status: string): $Enums.Status | undefined | null {
+  private validateStatus(status: string): string | undefined | null {
     status = status?.toLowerCase();
-    return status === 'activo' ? $Enums.Status.ACTIVE : status === 'inactivo' ? $Enums.Status.INACTIVE : null;
+    return status === 'activo' ? '1' : status === 'inactivo' ? '0' : null;
   }
 
-  private validateRole(role: string): $Enums.Role | undefined | null {
+  private validateRole(role: string): string | undefined | null {
     role = role?.toLowerCase();
-    return role === 'admin' ? $Enums.Role.ADMIN : role === 'usuario' ? $Enums.Role.USER : null;
+    return role === 'admin' ? '1' : role === 'usuario' ? '0' : null;
   }
 }

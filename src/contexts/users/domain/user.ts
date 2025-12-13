@@ -10,7 +10,6 @@ interface UserVO {
   birthday: vo.UserBirthday;
   phone: vo.UserPhone;
   email: vo.UserEmail;
-  photo: vo.UserPhoto;
   password: vo.UserPassword;
   status: vo.UserStatus;
   role: vo.UserRole;
@@ -28,7 +27,6 @@ export class User {
   private birthdayVO: vo.UserBirthday;
   private phoneVO: vo.UserPhone;
   private emailVO: vo.UserEmail;
-  private photoVO: vo.UserPhoto;
   private passwordVO: vo.UserPassword;
   private statusVO: vo.UserStatus;
   private roleVO: vo.UserRole;
@@ -53,7 +51,6 @@ export class User {
     this.birthdayVO = vo.birthday;
     this.phoneVO = vo.phone;
     this.emailVO = vo.email;
-    this.photoVO = vo.photo;
     this.passwordVO = vo.password;
     this.statusVO = vo.status;
     this.roleVO = vo.role;
@@ -101,11 +98,6 @@ export class User {
     this.deleteAt();
   }
 
-  set photo(photo: InstanceType<typeof vo.UserPhoto>['_value']) {
-    this.photoVO = new vo.UserPhoto(photo);
-    this.deleteAt();
-  }
-
   set password(password: InstanceType<typeof vo.UserPassword>['_value']) {
     this.passwordVO = new vo.UserPassword(password);
     this.deleteAt();
@@ -147,10 +139,6 @@ export class User {
 
   get phone(): vo.UserPhone {
     return this.phoneVO;
-  }
-
-  get photo(): vo.UserPhoto {
-    return this.photoVO;
   }
 
   get password(): vo.UserPassword {
@@ -201,7 +189,6 @@ export class User {
       birthday: new vo.UserBirthday(primitive.birthday),
       phone: new vo.UserPhone(primitive.phone),
       email: new vo.UserEmail(primitive.email),
-      photo: new vo.UserPhoto(primitive.photo),
       password: new vo.UserPassword(primitive.password),
       status: new vo.UserStatus(primitive.status),
       role: new vo.UserRole(primitive.role),
@@ -221,7 +208,6 @@ export class User {
       birthday: new vo.UserBirthday(primitive.birthday),
       phone: new vo.UserPhone(primitive.phone),
       email: new vo.UserEmail(primitive.email),
-      photo: new vo.UserPhoto(primitive.photo),
       password: new vo.UserPassword(primitive.password),
       status: new vo.UserStatus(primitive.status),
       role: new vo.UserRole(primitive.role),
@@ -248,7 +234,6 @@ export class User {
       birthday: this.birthdayVO._value,
       phone: this.phoneVO._value,
       email: this.emailVO._value,
-      photo: this.photoVO._value,
       password: this.passwordVO._value,
       status: this.statusVO._value,
       role: this.roleVO._value,

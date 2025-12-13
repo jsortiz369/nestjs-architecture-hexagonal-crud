@@ -1,5 +1,5 @@
 import { DataFindAll } from 'src/shared/system/domain/system.interface';
-import { UserExistProjection, UserFindOneByIdProjection } from '../projections';
+import { UserExistProjection, UserFindAllProjection, UserFindOneByIdProjection } from '../projections';
 import { UserFindAllQuery } from '../../application';
 
 export abstract class UserQueryRepository {
@@ -9,9 +9,9 @@ export abstract class UserQueryRepository {
    * @author Jogan Ortiz Muñoz
    *
    * @abstract
-   * @returns {Promise<DataFindAll<UserFindOneByIdProjection[]>>}
+   * @returns {Promise<DataFindAll<UserFindAllProjection>>}
    */
-  abstract findAll(query: UserFindAllQuery): Promise<DataFindAll<UserFindOneByIdProjection[]>>;
+  abstract findAll(query: UserFindAllQuery): Promise<DataFindAll<UserFindAllProjection>>;
 
   /**
    * @description Get User By Id

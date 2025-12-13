@@ -6,7 +6,6 @@ export { UserSecondSurname } from './user-second-surname.vo';
 export { UserBirthday } from './user-birthday.vo';
 export { UserPhone } from './user-phone.vo';
 export { UserEmail } from './user-email.vo';
-export { UserPhoto } from './user-photo.vo';
 export { UserPassword } from './user-password.vo';
 export { UserStatus } from './user-status.vo';
 export { UserRole } from './user-role.vo';

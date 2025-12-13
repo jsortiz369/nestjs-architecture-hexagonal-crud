@@ -7,3 +7,22 @@ datasource db {
   provider = "sqlserver"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id            String    @db.UniqueIdentifier @id @default(dbgenerated("NEWID()")) @map("_id")
+  firstName     String    @db.VarChar(25) @map("first_name")
+  secondName    String?   @db.VarChar(25) @map("second_name")
+  firstSurname  String    @db.VarChar(25) @map("first_surname")
+  secondSurname String?   @db.VarChar(25) @map("second_surname")
+  birthday      DateTime  @db.Date
+  phone         String?   @db.VarChar(25)
+  email         String    @db.VarChar(100)
+  password      String    @db.VarChar(255)
+  status        Int       @db.TinyInt @default(1)  
+  role          Int       @db.TinyInt @default(1)   
+  createdAt     DateTime  @db.DateTime2 @default(now()) @map("created_at")
+  updatedAt     DateTime  @db.DateTime2 @map("updated_at")
+  deletedAt     DateTime? @db.DateTime2 @map("deleted_at")
+
+  @@map("users")
+}

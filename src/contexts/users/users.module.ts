@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 
-import { UuidModule } from 'src/shared/uuid/uuid.module';
-import { DatabaseModule } from 'src/shared/database/database.module';
 import { EnvModule } from 'src/shared/env/env.module';
+import { DatabaseModule } from 'src/shared/database/database.module';
+import { UuidModule } from 'src/shared/uuid/uuid.module';
+import { BcryptModule } from 'src/shared/bcrypt/bcrypt.module';
 import { UuidRepository } from 'src/shared/uuid/domain/uuid.repository';
+import { BcryptRepository } from 'src/shared/bcrypt/domain/bcrypt.repository';
 import { UserQueryRepository, UserRepository } from './domain/repositories';
 import { UserPersistenceProvider, UserQueryPersistenceProvider } from './infrastructure/persistences';
 
@@ -12,7 +14,7 @@ import * as handlers from './application';
 import * as services from './domain/service';
 
 @Module({
-  imports: [EnvModule, DatabaseModule, UuidModule],
+  imports: [EnvModule, DatabaseModule, UuidModule, BcryptModule],
   controllers: [
     controllers.UserCreateController,
     controllers.UserUpdateController,
@@ -52,10 +54,10 @@ import * as services from './domain/service';
     },
     {
       provide: handlers.UserCreateHandler,
-      useFactory: (_uuidRepository: UuidRepository, _userRepository: UserRepository) => {
-        return new handlers.UserCreateHandler(_uuidRepository, _userRepository);
+      useFactory: (_uuidRepository: UuidRepository, _bcryptRepository: BcryptRepository, _userRepository: UserRepository) => {
+        return new handlers.UserCreateHandler(_uuidRepository, _bcryptRepository, _userRepository);
       },
-      inject: [UuidRepository, UserRepository],
+      inject: [UuidRepository, BcryptRepository, UserRepository],
     },
     {
       provide: handlers.UserUpdateHandler,

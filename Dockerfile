@@ -26,8 +26,15 @@ set -e
 echo "🏁 waiting for the database to finish initializing..."
 sleep 1
 
+echo "🏁 Delete generated databases"
+if [ -d "generated" ]; then
+  rm -rf generated/*
+fi
+
 echo "🏁 Created generated database..."
-npx prisma generate
+npx prisma generate --schema=prisma/mysql/schema.prisma
+npx prisma generate --schema=prisma/postgresql/schema.prisma
+npx prisma generate --schema=prisma/sqlserver/schema.prisma
 
 echo "🏁 Starting migrations..."
 npx prisma migrate deploy

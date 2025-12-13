@@ -1,25 +1,25 @@
-import { $Enums } from 'generated/mysql/prisma';
+import { $Enums } from 'generated/postgresql/prisma';
 import { UserFindAllQuery } from 'src/contexts/users/application';
 import { UserExistProjection, UserFindAllProjection, UserFindOneByIdProjection } from 'src/contexts/users/domain/projections';
 import { UserQueryRepository } from 'src/contexts/users/domain/repositories';
 import { FiledSearchType } from 'src/shared/database/domain/database.interface';
-import { PrismaMysqlPersistence } from 'src/shared/database/infrastructure/persistences';
+import { PrismaPostgresqlPersistence } from 'src/shared/database/infrastructure/persistences';
 import { DataFindAll, RoleType, StatusType } from 'src/shared/system/domain/system.interface';
 
 export class UserQueryPersistence implements UserQueryRepository {
   /**
    * Creates an instance of UserQueryPersistence.
-   * @date 2025-12-10 06:44:54
+   * @date 2025-12-13 15:07:03
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {PrismaMysqlPersistence} _prisma
+   * @param {PrismaPostgresqlPersistence} _prisma
    */
-  constructor(private readonly _prisma: PrismaMysqlPersistence) {}
+  constructor(private readonly _prisma: PrismaPostgresqlPersistence) {}
 
   /**
    * @description Get all user by filters
-   * @date 2025-12-10 07:57:39
+   * @date 2025-12-13 15:07:13
    * @author Jogan Ortiz Muñoz
    *
    * @async
@@ -108,7 +108,7 @@ export class UserQueryPersistence implements UserQueryRepository {
 
   /**
    * @description Get User By Id
-   * @date 2025-12-10 06:44:34
+   * @date 2025-12-13 15:07:48
    * @author Jogan Ortiz Muñoz
    *
    * @async
@@ -144,13 +144,13 @@ export class UserQueryPersistence implements UserQueryRepository {
 
   /**
    * @description Validate exist email
-   * @date 2025-12-10 07:12:09
+   * @date 2025-12-13 15:08:10
    * @author Jogan Ortiz Muñoz
    *
    * @async
    * @param {string} email
    * @param {?string} [id]
-   * @returns {Promise<boolean>}
+   * @returns {Promise<UserExistProjection>}
    */
   async existByEmail(email: string, id?: string): Promise<UserExistProjection> {
     const result = await this._prisma.user.findFirst({

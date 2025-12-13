@@ -9,7 +9,7 @@ export class UserFindOneByIdProjection implements TypeProjection {
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {TypeProjection['_id']} _id
+   * @param {NonNullable<Required<TypeProjection['_id']>>} _id
    * @param {TypeProjection['firstName']} firstName
    * @param {TypeProjection['secondName']} secondName
    * @param {TypeProjection['firstSurname']} firstSurname
@@ -17,14 +17,13 @@ export class UserFindOneByIdProjection implements TypeProjection {
    * @param {TypeProjection['birthday']} birthday
    * @param {TypeProjection['phone']} phone
    * @param {TypeProjection['email']} email
-   * @param {TypeProjection['photo']} photo
    * @param {TypeProjection['status']} status
    * @param {TypeProjection['role']} role
    * @param {TypeProjection['createdAt']} createdAt
    * @param {TypeProjection['updatedAt']} updatedAt
    */
   constructor(
-    readonly _id: TypeProjection['_id'],
+    readonly _id: NonNullable<Required<TypeProjection['_id']>>,
     readonly firstName: TypeProjection['firstName'],
     readonly secondName: TypeProjection['secondName'],
     readonly firstSurname: TypeProjection['firstSurname'],
@@ -32,7 +31,6 @@ export class UserFindOneByIdProjection implements TypeProjection {
     readonly birthday: TypeProjection['birthday'],
     readonly phone: TypeProjection['phone'],
     readonly email: TypeProjection['email'],
-    readonly photo: TypeProjection['photo'],
     readonly status: TypeProjection['status'],
     readonly role: TypeProjection['role'],
     readonly createdAt: TypeProjection['createdAt'],

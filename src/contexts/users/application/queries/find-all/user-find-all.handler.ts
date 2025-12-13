@@ -20,6 +20,9 @@ export class UserFindAllHandler {
     // TODO: validate page
     if (query.page != 1 && result.meta.lastPage < result.meta.page) throw new PageNotFoundException();
 
-    return result;
+    return {
+      meta: result.meta,
+      data: result.data,
+    };
   }
 }

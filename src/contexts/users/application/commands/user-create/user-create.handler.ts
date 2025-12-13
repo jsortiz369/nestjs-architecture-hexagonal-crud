@@ -4,6 +4,7 @@ import { UuidRepository } from 'src/shared/uuid/domain/uuid.repository';
 import { User } from 'src/contexts/users/domain/user';
 import { UserConflictEmailException } from 'src/contexts/users/domain/exceptions';
 import { UserPrimitive } from 'src/contexts/users/domain/user.interface';
+import { BcryptRepository } from 'src/shared/bcrypt/domain/bcrypt.repository';
 
 export class UserCreateHandler {
   /**
@@ -13,10 +14,12 @@ export class UserCreateHandler {
    *
    * @constructor
    * @param {UuidRepository} _uuidRepository
+   * @param {BcryptRepository} _bcryptRepository
    * @param {UserRepository} _userRepository
    */
   constructor(
     private readonly _uuidRepository: UuidRepository,
+    private readonly _bcryptRepository: BcryptRepository,
     private readonly _userRepository: UserRepository,
   ) {}
 
@@ -40,7 +43,7 @@ export class UserCreateHandler {
       birthday: command.birthday,
       phone: command.phone,
       email: command.email,
-      password: command.password,
+      password: await this._bcryptRepository.hash(command.password),
       role: command.role,
       status: command.status,
     });
@@ -54,6 +57,7 @@ export class UserCreateHandler {
 
     // TODO: return user values primitives
     const userPrimitive = createdUser.toValuesPrimitives();
+
     return {
       _id: userPrimitive._id,
       firstName: userPrimitive.firstName,

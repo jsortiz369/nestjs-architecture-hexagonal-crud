@@ -9,7 +9,6 @@ export interface UserPrimitive {
   birthday: Date;
   phone?: string | null;
   email: string;
-  photo?: string | null;
   password: string;
   status: StatusType;
   role: RoleType;
@@ -19,31 +18,3 @@ export interface UserPrimitive {
 }
 
 export type UserCreatePrimitive = Omit<UserPrimitive, 'createdAt' | 'updatedAt' | 'deletedAt'>;
-
-/*export enum UserSort {
-  FIRST_NAME = 'firstName',
-  SECON_DNAME = 'secondName',
-  FIRST_SURNAME = 'firstSurname',
-  SECOND_SURNAME = 'secondSurname',
-  BIRTHDAY = 'birthday',
-  PHONE = 'phone',
-  EMAIL = 'email',
-  STATUS = 'status',
-  ROLE = 'role',
-  CREATED_AT = 'createdAt',
-  UPDATED_AT = 'updatedAt',
-}
-
- export interface UserFilterFind {
-  global?: { value: string; matchMode: MatchModeStringType };
-}
-
-export interface UserFind {
-  page: number;
-  limit: number;
-  sort: UserSort;
-  sortOrder: SortOrderType;
-  filters?: UserFilterFind;
-  search?: string;
-}
- */

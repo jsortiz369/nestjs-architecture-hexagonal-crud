@@ -1,31 +1,23 @@
 import { LoggerService, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { PrismaClient } from 'generated/sqlserver/prisma';
 
 import { PrismaUtil } from '../utils';
 import { EnvRepository } from 'src/shared/env/domain/env.repository';
 
-export class PrismaSqlServerPersistence implements OnModuleInit, OnModuleDestroy {
+export class PrismaSqlServerPersistence extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   private readonly _logger: LoggerService;
 
   constructor(_logger: LoggerService, _envRepository: EnvRepository) {
-    console.log(_envRepository);
-    //super({ datasourceUrl: _envRepository.getUrlDataSource() });
+    super({ datasourceUrl: _envRepository.getUrlDataSource() });
     this._logger = _logger;
   }
 
-  /**
-   * @description Get Utils Prisma
-   * @date 2025-12-02 21:47:52
-   * @author Jogan Ortiz Muñoz
-   *
-   * @readonly
-   * @type {PrismaUtil}
-   */
-  get $utls(): PrismaUtil {
+  get $utls() {
     return PrismaUtil;
   }
 
   /**
-   * @description Connect to database postgresql
+   * @description Connect to database sqlserver
    * @date 2025-12-02 21:48:42
    * @author Jogan Ortiz Muñoz
    *
@@ -34,10 +26,9 @@ export class PrismaSqlServerPersistence implements OnModuleInit, OnModuleDestroy
    */
   async onModuleInit(): Promise<void> {
     try {
-      //await this.$connect();
-      throw new Error('Method not implemented.');
+      await this.$connect();
 
-      this._logger.log('Server prisma database connected POSTGRESQL', 'DatabaseApplication');
+      this._logger.log('Server prisma database connected SQLSERVER', 'DatabaseApplication');
     } catch (error) {
       this._logger.error('Error connecting to server prisma database', 'DatabaseApplication');
       throw error;
@@ -45,7 +36,7 @@ export class PrismaSqlServerPersistence implements OnModuleInit, OnModuleDestroy
   }
 
   /**
-   * @description Disconnect to database postgresql
+   * @description Disconnect to database sqlserver
    * @date 2025-12-02 21:48:29
    * @author Jogan Ortiz Muñoz
    *
@@ -53,7 +44,6 @@ export class PrismaSqlServerPersistence implements OnModuleInit, OnModuleDestroy
    * @returns {Promise<void>}
    */
   async onModuleDestroy(): Promise<void> {
-    //await this.$disconnect();
-    throw new Error('Method not implemented.');
+    await this.$disconnect();
   }
 }

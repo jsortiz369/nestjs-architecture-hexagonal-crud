@@ -23,6 +23,21 @@ export class PrismaUtil {
     return null;
   }
 
+  static searchFilterField(
+    field: i.FiledSearchType,
+    filter: {
+      value: string;
+      matchMode: i.MatchModeEnumType | i.MatchModeStringType | i.MatchModeDateType | i.MatchModeBooleanType | i.MatchModeNumberType;
+    },
+  ): i.FilterEnum | i.FilterString | i.FilterDate | i.FilterBoolean | i.FilterNumber | null {
+    if (field.type === 'enum') return this.filterEnum(field, filter.matchMode as i.MatchModeEnumType, filter.value);
+    if (field.type === 'string') return this.filterString(field, filter.matchMode as i.MatchModeStringType, filter.value);
+    if (field.type === 'Date') return this.filterDate(field, filter.matchMode as i.MatchModeDateType, filter.value);
+    if (field.type === 'boolean') return this.filterBoolean(field, filter.matchMode as i.MatchModeBooleanType, filter.value);
+    if (field.type === 'number') return this.filterNumber(field, filter.matchMode as i.MatchModeNumberType, filter.value);
+    return null;
+  }
+
   /**
    * @description If the filter is by string
    * @date 2025-11-24 06:47:56
@@ -64,11 +79,11 @@ export class PrismaUtil {
    */
   private static filterEnum(field: i.FiledSearchType, matchMode: i.MatchModeEnumType, value: string): i.FilterEnum | null {
     const fieldValue = field.callback ? field.callback(value) : value;
-    if (fieldValue === undefined || fieldValue === null) return null;
+    if (fieldValue === undefined) return null;
 
     if (matchMode === i.MatchModeEnumType.NOT_EQUALS) return { [field.field]: { not: fieldValue } };
     if (matchMode === i.MatchModeEnumType.EQUALS) return { [field.field]: fieldValue };
-    if (matchMode === i.MatchModeEnumType.IN) return { [field.field]: { in: fieldValue.split(',') } };
+    if (matchMode === i.MatchModeEnumType.IN) return { [field.field]: { in: fieldValue?.split(',') ?? null } };
     return null;
   }
 

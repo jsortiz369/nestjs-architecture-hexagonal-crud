@@ -1,19 +1,38 @@
+import { UserPrimitive } from '../user.interface';
+
+type TypeProjection = Omit<UserPrimitive, 'password' | 'deletedAt'>;
 export class UserFindAllProjection {
   /**
-   * Creates an instance of UserFindProjection.
-   * @date 2025-12-10 07:52:22
+   * Creates an instance of UserFindAllProjection.
+   * @date 2025-12-12 20:57:09
    * @author Jogan Ortiz Muñoz
    *
    * @constructor
-   * @param {string} id
-   * @param {string} fullName
-   * @param {string} email
-   * @param {string} status
+   * @param {NonNullable<Required<TypeProjection['_id']>>} _id
+   * @param {TypeProjection['firstName']} firstName
+   * @param {TypeProjection['secondName']} secondName
+   * @param {TypeProjection['firstSurname']} firstSurname
+   * @param {TypeProjection['secondSurname']} secondSurname
+   * @param {TypeProjection['birthday']} birthday
+   * @param {TypeProjection['phone']} phone
+   * @param {TypeProjection['email']} email
+   * @param {TypeProjection['status']} status
+   * @param {TypeProjection['role']} role
+   * @param {TypeProjection['createdAt']} createdAt
+   * @param {TypeProjection['updatedAt']} updatedAt
    */
   constructor(
-    readonly id: string,
-    readonly fullName: string,
-    readonly email: string,
-    readonly status: string,
+    readonly _id: NonNullable<Required<TypeProjection['_id']>>,
+    readonly firstName: TypeProjection['firstName'],
+    readonly secondName: TypeProjection['secondName'],
+    readonly firstSurname: TypeProjection['firstSurname'],
+    readonly secondSurname: TypeProjection['secondSurname'],
+    readonly birthday: TypeProjection['birthday'],
+    readonly phone: TypeProjection['phone'],
+    readonly email: TypeProjection['email'],
+    readonly status: TypeProjection['status'],
+    readonly role: TypeProjection['role'],
+    readonly createdAt: TypeProjection['createdAt'],
+    readonly updatedAt: TypeProjection['updatedAt'],
   ) {}
 }

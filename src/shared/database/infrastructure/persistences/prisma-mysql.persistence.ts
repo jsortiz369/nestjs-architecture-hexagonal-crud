@@ -20,6 +20,10 @@ export class PrismaMysqlPersistence extends PrismaClient implements OnModuleInit
     this._logger = _logger;
   }
 
+  get $utls() {
+    return PrismaUtil;
+  }
+
   /**
    * @description Connect to database mysql
    * @date 2025-12-02 06:46:02
@@ -49,9 +53,5 @@ export class PrismaMysqlPersistence extends PrismaClient implements OnModuleInit
    */
   async onModuleDestroy(): Promise<void> {
     await this.$disconnect();
-  }
-
-  get $utls() {
-    return PrismaUtil;
   }
 }
